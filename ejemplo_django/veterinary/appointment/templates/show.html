@@ -1,0 +1,26 @@
+<!--Load widget tweaks nos permite codificar estilo python -->
+{% load widget_tweaks %} 
+
+    <div class = "container">
+        <h1>Pets</h1>
+        {% if object_pk and object_name %}
+
+        <h2>
+            This is the page for {{object_name}} with pk: {{object_pk}}, age: {{object_age}}    
+        </h2>
+        
+        {% else %}
+
+        <h2>List of pet Objects:</h2>
+        {% for name, values in pet_dict.items %}
+        <!-- Lo que sea que este dentro de este header terciario
+        se replica 1 vez por cada iteracion del for -->
+        <!--En este caso se genera este header terciaro n veces
+        dependiendo de las mascotas que se generen -->
+            <a href = "{% url 'show' values.pk % }"> 
+                <h3>{{name}} with pk: {{values.pk}}, age: {{values.age}} </h3>
+            </a>    
+        {% endfor %}
+
+        {% endif %}
+    </div>
