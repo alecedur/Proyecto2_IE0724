@@ -1,0 +1,27 @@
+{% load widget_tweaks %}
+
+    <div class="container">
+
+      <h1>Create new user</h1>
+      {% if user_logged %}
+      <h2>{{ note }}</h2>
+      <a href="{% url 'show' user.pk % }"> 
+          <h3>View appointments</h3>
+      </a>
+      {% else %}
+      <form action="{% url 'signup' %}" method="post">
+          {% csrf_token %}
+          {% for field in userform %}
+          <div class="form-group">
+
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+
+          </div>
+          {% endfor %}
+
+          <input type="submit" value="Create New User">
+      </form>
+      {% endif %}
+
+    </div>
