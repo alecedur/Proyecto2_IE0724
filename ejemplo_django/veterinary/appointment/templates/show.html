@@ -17,10 +17,10 @@
         se replica 1 vez por cada iteracion del for -->
         <!--En este caso se genera este header terciaro n veces
         dependiendo de las mascotas que se generen -->
-            <a href = "{% url 'show' values.pk % }"> 
+            <a href="{% url 'show' values.pk %}">
                 <h3>{{name}} with pk: {{values.pk}}, age: {{values.age}} </h3>
-            </a>    
+            </a>  
+        
         {% endfor %}
-
         {% endif %}
     </div>
