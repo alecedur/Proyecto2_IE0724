@@ -1,0 +1,18 @@
+{% load widget_tweaks %}
+
+    <div class="container">
+      <h1>Log in page</h1>
+      <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+          {% for field in loginForm %}
+          <div class="form-group">
+
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+
+          </div>
+          {% endfor %}
+
+          <input type="submit" value="Create New SuperUser">
+      </form>
+    </div>

@@ -2,7 +2,10 @@ from django import forms
 from .models import superUser, users
 
 
-
+class loginForm(forms.Form):
+    email = forms.EmailField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput())
+    superUser = forms.BooleanField(required=False)
 
 class usersForm(forms.ModelForm):
     class Meta:
@@ -17,6 +20,7 @@ class usersForm(forms.ModelForm):
             'name' : 'Name',
             'password' : 'Password',
         }
+    key = forms.CharField(required=False, max_length=20)
 
 class superuserForm(forms.ModelForm):
     class Meta:
