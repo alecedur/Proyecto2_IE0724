@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, Http404,HttpResponseForbidden
 from .models import appointment, superUser, users
 from .forms import usersForm, superuserForm, loginForm
+from datetime import timedelta
 # Create your views here.
 
 def signup(request):    
@@ -87,11 +88,11 @@ def login(request):
             if filled_form.cleaned_data['superUser']:
                 #look for superuser accs
                 if superUser.objects.filter(email=emailInput, password=filled_form.cleaned_data['password']):
-                    print('logged in')
+                    print('logged in super')
                     return processLogin(emailInput, request, isSuper= True, logState= True)                   
             else:
                 if users.objects.filter(email=emailInput, password=filled_form.cleaned_data['password']):
-                    print('logged in')
+                    print('logged in normal')
                     return processLogin(emailInput, request, logState= True)
             return processLogin(emailInput, request)   
                 #look for normal accounts: 
@@ -107,12 +108,12 @@ def login(request):
 
 def processLogin(userEmail, request, isSuper = False, logState = False):
     if logState:
-        if isSuper:
-            redis.set("loggedUserMail", userEmail)        
-            return redirect('user/view/')
-        else:
-            redis.set("loggedUserMail", userEmail)            
-            return redirect('admin/panel/')               
+        if isSuper:            
+            request.session['loggedUser'] = userEmail      
+            return redirect('admin/panel/')
+        else:             
+            request.session['loggedUser'] = userEmail 
+            return redirect('user/view/')                                     
     else: 
         #User got to this url and is not logged in
         return HttpResponseForbidden()
@@ -121,28 +122,38 @@ def superuserView(request):
     return render(request,
                           'superuser_view.html',)
 def userView(request):
-    currentUser = redis.get("loggedUserMail")
+    currentUser = request.session.get('loggedUser')
     appointmentList = getUserAppointments(currentUser)
-    formattedList = processAppointmentList(appointmentList)   
+    formattedList = processAppointmentList(appointmentList)  
+    
+    print(appointmentList[0]) 
     return render(request,
                           'user_view.html',)
 
 def userDelete(request):
+    currentUser = request.session.get('loggedUser')
+    appointmentList = getUserAppointments(currentUser)
     return render(request,
                   'user_detele_view.html',)
     
 def userModify(request):
+    currentUser = request.session.get('loggedUser')
+    appointmentList = getUserAppointments(currentUser)
     return render(request,
                   'user_Modify_view.html',)
 
 
 def availableDatesForProvider(providerName):
-    #listOfDatesForProvider = appointment.objects.values_list('appointmentDate', flat=True).filter(provider = providerName)
+    listOfDatesForProvider = appointment.objects.values_list('appointmentDate', flat=True).filter(provider = providerName)
     #parse over dates 
     return None
 
+def fixUTCTime(datetimeList):
+    return [datetime-timedelta(hours=6) for datetime in datetimeList] 
+
 def getUserAppointments(userMail):
-    return appointment.objects.values_list('appointmentDate', flat=True).filter(patient = userMail)
+    print(users.objects.get(email=userMail).id)
+    return fixUTCTime(appointment.objects.values_list('appointmentDate', flat=True).filter(patient = users.objects.get(email=userMail).id))
     
 def processAppointmentList(appointmentList):
     return 1    

@@ -24,8 +24,8 @@ urlpatterns = [
     path('signup/', views.signup, name = 'signup'),
     path('superuser/', views.superuser, name = 'superuser'),
     path('login/', views.login, name = 'login'),
-    path('user/view/', views.userView, name= 'userView'),
+    path('login/user/view/', views.userView, name= 'userView'),
     path('user/delete/', views.userDelete, name= 'userDelete'),
     path('user/modify/', views.userModify, name='userModify'),
-    path('admin/panel/', views.superuserView, name = 'superuserView'),
+    path('login/admin/panel/', views.superuserView, name = 'superuserView'),
 ]
