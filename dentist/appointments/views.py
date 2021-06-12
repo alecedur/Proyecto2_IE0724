@@ -2,7 +2,6 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, Http404,HttpResponseForbidden
 from .models import appointment, superUser, users
 from .forms import usersForm, superuserForm, loginForm
-import redis
 # Create your views here.
 
 def signup(request):    
