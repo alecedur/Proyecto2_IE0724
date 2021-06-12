@@ -35,7 +35,6 @@ class appointment(models.Model):
     patient = models.ForeignKey(users, default=None, on_delete=models.CASCADE, related_name='patientName')
     provider = models.ForeignKey(providers, default=None, on_delete=models.CASCADE, related_name='doctorProviders')
     appointmentDate = models.DateTimeField(default=None)
-    takenDate = models.BooleanField(default=False)
 # class Pet(models.Model):
 #     name = models.CharField(max_length=20)
 #     age = models.PositiveIntegerField(blank=True)

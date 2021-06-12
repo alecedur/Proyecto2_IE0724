@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, Http404,HttpResponseForbidden
 from .models import appointment, superUser, users
 from .forms import usersForm, superuserForm, loginForm
+import redis
 # Create your views here.
 
 def signup(request):    
@@ -108,27 +109,45 @@ def login(request):
 def processLogin(userEmail, request, isSuper = False, logState = False):
     if logState:
         if isSuper:
+            redis.set("loggedUserMail", userEmail)        
             return redirect('user/view/')
         else:
+            redis.set("loggedUserMail", userEmail)            
             return redirect('admin/panel/')               
     else: 
         #User got to this url and is not logged in
         return HttpResponseForbidden()
 
-def superuserView(request):
+def superuserView(request):     
     return render(request,
                           'superuser_view.html',)
 def userView(request):
+    currentUser = redis.get("loggedUserMail")
+    appointmentList = getUserAppointments(currentUser)
+    formattedList = processAppointmentList(appointmentList)   
     return render(request,
                           'user_view.html',)
-    
 
-def availableDates(providerName):
+def userDelete(request):
+    return render(request,
+                  'user_detele_view.html',)
+    
+def userModify(request):
+    return render(request,
+                  'user_Modify_view.html',)
+
+
+def availableDatesForProvider(providerName):
     #listOfDatesForProvider = appointment.objects.values_list('appointmentDate', flat=True).filter(provider = providerName)
     #parse over dates 
     return None
+
+def getUserAppointments(userMail):
+    return appointment.objects.values_list('appointmentDate', flat=True).filter(patient = userMail)
     
-    
+def processAppointmentList(appointmentList):
+    return 1    
+
 
 def new(request):
     # new_form = PetForm()
