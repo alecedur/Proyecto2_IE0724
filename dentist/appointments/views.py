@@ -200,3 +200,10 @@ def new(request):
 
 def show(request, pk=None):
     return HttpResponse('Showing "show" page')
+
+def home(request):
+    return render(
+        request,
+        'home.html',
+        {}
+    )
