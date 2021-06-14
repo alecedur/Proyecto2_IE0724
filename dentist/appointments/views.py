@@ -7,6 +7,16 @@ from django.template import loader
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
+HOUR = [
+    ('1', '8:00',
+     '2', '9:00',
+     '3', '10:00',
+     '4', '11:00',
+     '5', '12:00',
+     '6', '13:00',
+     '7', '14:00',
+     '8', '15:00',)
+]
 
 def signup(request):    
     new_form = usersForm()  
@@ -129,7 +139,7 @@ def userView(request):
     appointmentList = getUserAppointments(currentUser)
     formattedList = processAppointmentList(appointmentList)  
     
-    print(appointmentList[0]) 
+    print(appointmentList[0].hour) 
     return render(request,
                           'user_view.html',)
 
@@ -149,7 +159,13 @@ def userModify(request):
 def availableDatesForProvider(providerName):
     listOfDatesForProvider = appointment.objects.values_list('appointmentDate', flat=True).filter(provider = providerName)
     #parse over dates 
+    
     return None
+
+def getAvailableDatesForTheDay(listOfDates, day):
+    for date in listOfDates:
+        if date.day == day:
+            return [x for x in HOUR if x != date.hour]
 
 def fixUTCTime(datetimeList):
     return [datetime-timedelta(hours=6) for datetime in datetimeList] 
@@ -158,6 +174,12 @@ def getUserAppointments(userMail):
     print(users.objects.get(email=userMail).id)
     return fixUTCTime(appointment.objects.values_list('appointmentDate', flat=True).filter(patient = users.objects.get(email=userMail).id))
     
+def deleteAppointment(userMail, dateToDelete):
+    appointmentList = getUserAppointments(userMail)
+    for date in appointmentList:
+        if date == dateToDelete:
+            appointment.objects.filter(appointmentDate = dateToDelete).delete()
+            
 def processAppointmentList(appointmentList):
     return 1    
 
