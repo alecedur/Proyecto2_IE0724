@@ -26,13 +26,14 @@ urlpatterns = [
     path('new/', views.new, name='new'),
     path('signup/', views.signup, name = 'signup'),
     path('superuser/', views.superuser, name = 'superuser'),
-    #path('login/', views.login, name = 'login'),
+    path('login/', views.login, name = 'login'),
     path('login/user/view/', views.userView, name= 'userView'),
     path('user/delete/', views.userDelete, name= 'userDelete'),
     path('user/modify/', views.userModify, name='userModify'),
     path('login/admin/panel/', views.superuserView, name = 'superuserView'),
+    path('accounts/profile', views.ProfileView.as_view(), name = 'profile'),
 
     #Django Auth Stuff
-    path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
+    #path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('accounts/logout', auth_views.LogoutView.as_view(), name='logout')
 ]
