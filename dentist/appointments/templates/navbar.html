@@ -1,0 +1,13 @@
+<div> 
+    {% url 'home' as home_url %}
+    <span>{% if request.path == home_url %} Home {% else %}<a href="{%url 'home'%}">Home</a> {% endif %} </span>
+    {% url 'about' as about_url %}
+    <span><a href="{%url 'about'%}">About</a></span>
+    <span style="float:right">
+        {% if user.is_authenticated %}
+            <span>Hola {{ user.username}}! </span>
+        {% else %}
+            <span><a href="{% url 'login' %}">Login</a></span>
+        {% endif %}
+    </span>
+</div>
