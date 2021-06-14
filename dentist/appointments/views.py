@@ -144,7 +144,7 @@ def userView(request):
     return render(request,
                           'user_view.html',
                           {
-                              user_logged: True,
+                              'user_logged': True,
                               'dateForm' : newform,
                           })
 
