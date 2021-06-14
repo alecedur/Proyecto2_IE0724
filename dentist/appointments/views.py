@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404,HttpResponseForbidden
 from .models import appointment, superUser, users
 from .forms import usersForm, superuserForm, loginForm
 from datetime import timedelta
+from django.template import loader
 # Create your views here.
 
 def signup(request):    
@@ -205,5 +206,12 @@ def home(request):
     return render(
         request,
         'home.html',
+        {}
+    )
+
+def about(request):
+    return render(
+        request,
+        'about.html',
         {}
     )
