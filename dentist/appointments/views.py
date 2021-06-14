@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, Http404,HttpResponseForbidden
 from .models import appointment, superUser, users
-from .forms import usersForm, superuserForm, loginForm
+from .forms import newAppointment, usersForm, superuserForm, loginForm
 from datetime import timedelta
 from django.template import loader
 # Create your views here.
@@ -134,12 +134,17 @@ def superuserView(request):
                           'superuser_view.html',)
 def userView(request):
     currentUser = request.session.get('loggedUser')
+    newform = newAppointment()
     appointmentList = getUserAppointments(currentUser)
     formattedList = processAppointmentList(appointmentList)  
     
     print(appointmentList[0].hour) 
     return render(request,
-                          'user_view.html',)
+                          'user_view.html',
+                          {
+                              user_logged: True,
+                              'dateForm' : newform,
+                          })
 
 def userDelete(request):
     currentUser = request.session.get('loggedUser')
