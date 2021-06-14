@@ -1,1 +1,25 @@
 <h1>Logged in</h1>
+
+{% load widget_tweaks %}
+
+    <div class="container">
+
+      <h1>Choose date for appoinmtment</h1>
+      {% if user_logged %}     
+      {% else %}
+      <form action="{% url 'setDate' %}" method="post">
+          {% csrf_token %}
+          {% for field in userform %}
+          <div class="form-group">
+
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+
+          </div>
+          {% endfor %}
+
+          <input type="submit" value="Create new Appointment">
+      </form>
+      {% endif %}
+
+    </div>
