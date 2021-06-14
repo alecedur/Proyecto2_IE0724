@@ -1,5 +1,10 @@
+{% extends 'base.html' %}
 {% load widget_tweaks %}
 
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
     <div class="container">
       <h1>Log in page</h1>
       <form action="{% url 'login' %}" method="post">
@@ -16,3 +21,4 @@
           <input type="submit" value="Login">
       </form>
     </div>
+{% endblock %}    
