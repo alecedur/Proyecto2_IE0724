@@ -32,6 +32,7 @@ urlpatterns = [
     path('user/modify/', views.userModify, name='userModify'),
     path('login/admin/panel/', views.superuserView, name = 'superuserView'),
     path('accounts/profile', views.ProfileView.as_view(), name = 'profile'),
+    path('user/view/set', views.setDate, name = 'setDate'),
 
     #Django Auth Stuff
     #path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),

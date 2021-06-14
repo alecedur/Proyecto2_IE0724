@@ -134,13 +134,36 @@ def processLogin(userEmail, request, isSuper = False, logState = False):
 def superuserView(request):     
     return render(request,
                           'superuser_view.html',)
+
+def setDate(request):
+    new_form = newAppointment()
+    if request.method == 'POST':
+       return render(
+            request,
+            'user_view.html',
+            {
+                'user_logged': True,
+                'dateForm': new_form,
+            }
+        ) 
+    else:
+        return render(
+            request,
+            'user_view.html',
+            {
+                'user_logged': True,
+                'dateForm': new_form,
+            }
+        )
+
+
 def userView(request):
     currentUser = request.session.get('loggedUser')
     newform = newAppointment()
     appointmentList = getUserAppointments(currentUser)
     formattedList = processAppointmentList(appointmentList)  
     
-    print(appointmentList[0].hour) 
+    #print(appointmentList[0].hour) 
     return render(request,
                           'user_view.html',
                           {
