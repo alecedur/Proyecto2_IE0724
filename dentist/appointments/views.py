@@ -4,6 +4,8 @@ from .models import appointment, superUser, users
 from .forms import newAppointment, usersForm, superuserForm, loginForm
 from datetime import timedelta
 from django.template import loader
+from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 HOUR = [
     ('1', '8:00',
@@ -242,3 +244,6 @@ def about(request):
         'about.html',
         {}
     )
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/profile.html'
