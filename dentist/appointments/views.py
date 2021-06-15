@@ -168,7 +168,7 @@ def userView(request):
                           'user_view.html',
                           {
                               'user_logged': True,
-                              'dateForm' : newform,
+                              'datelist' : appointmentList
                           })
 
 def userDelete(request):

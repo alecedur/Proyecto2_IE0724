@@ -11,19 +11,9 @@
 
       <h1>Choose date for appointment</h1>
       {% if user_logged %}   
-      <form action="{% url 'setDate' %}" method="post">
-          {% csrf_token %}
-          {% for field in dateForm %}
-          <div class="form-group">
-
-            {{ field.label_tag }}
-            {% render_field field class="form-control" %}
-
-          </div>
-          {% endfor %}
-
-          <input type="submit" value="Create new Appointment">
-      </form>  
+        {% for date in datelist %} 
+        <div>{{ date }}</div>
+        {% endfor %}
       {% else %}
         <h1>Peppoggies</h1>
       {% endif %}
