@@ -3,6 +3,7 @@
 {% url 'userView' as userView_url %}
 {% url 'login' as login_url %}
 {% url 'logout' as logout_url %}
+{% url 'signup' as signup_url %}
 
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
@@ -21,6 +22,7 @@
                 {% else %}    
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == login_url %}active{% endif %}" href="{{ login_url }}">Login</a></li>
                 {% endif %}
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == signup_url %}active{% endif %}" href="{{ signup_url }}">Signup</a></li>
             </ul>
         </div>
     </div>

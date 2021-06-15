@@ -18,6 +18,7 @@ HOUR = [
      '8', '15:00',)
 ]
 
+#signup 
 def signup(request):    
     new_form = usersForm()  
     user_logged = False
