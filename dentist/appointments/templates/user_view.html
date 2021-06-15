@@ -9,10 +9,13 @@
 
     <div class="container">
 
-      <h1>Choose date for appointment</h1>
+      <h1>Dates for the user {{ user_name }}</h1>
       {% if user_logged %}   
         {% for date in datelist %} 
         <div>{{ date }}</div>
+        {% endfor %}
+        {% for provider in providerlist %} 
+        <div>{{ provider }}</div>
         {% endfor %}
       {% else %}
         <h1>Peppoggies</h1>

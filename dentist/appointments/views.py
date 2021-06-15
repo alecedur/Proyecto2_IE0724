@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, Http404,HttpResponseForbidden
-from .models import appointment, superUser, users
+from .models import appointment, providers, superUser, users
 from .forms import newAppointment, usersForm, superuserForm, loginForm
 from datetime import timedelta
 from django.template import loader
@@ -162,13 +162,14 @@ def userView(request):
     newform = newAppointment()
     appointmentList = getUserAppointments(currentUser)
     formattedList = processAppointmentList(appointmentList)  
-    
-    #print(appointmentList[0].hour) 
+    provider = list(appointment.objects.values_list('provider', flat=True).filter(patient = users.objects.get(email=currentUser).id))
     return render(request,
                           'user_view.html',
                           {
                               'user_logged': True,
-                              'datelist' : appointmentList
+                              'datelist' : appointmentList,
+                              'user_name' : currentUser,
+                              'providerlist' : provider
                           })
 
 def userDelete(request):
