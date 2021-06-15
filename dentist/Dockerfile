@@ -7,6 +7,7 @@ COPY requirements/prod.txt ./requirements/prod.txt
 RUN pip install -r ./requirements/prod.txt 
 
 COPY dentist ./dentist
+COPY appointments ./appointments
 
 EXPOSE 8000
 
