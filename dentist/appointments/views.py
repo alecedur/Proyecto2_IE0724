@@ -187,13 +187,23 @@ def userModify(request):
             appointmentList = getUserAppointments(currentUser)            
             date = filled_form.cleaned_data['appointmentDate']
             availDates = getAvailableDatesForTheDay(appointmentList, date.day)
-            if len(availDates)!=0:
+            #if len(availDates)!=0:
+            try:
                 filled_form.save()
+            except:
+                note = 'Date is already taken, try again'
+                return render(request, 'user_Modify_view.html',
+                          {
+                              'note' : note,
+                              'dateForm' : newform,                            
+                          })
             print('here3')
+            note = 'Saved date for user ' + currentUser + ' date: ' + date.strftime("%m/%d/%Y")
             return render(request, 'user_Modify_view.html',
                           {
                               'note' : note,
                               'dateForm' : newform,
+                              'saved' : True,
                           })
         else:
             note = 'Invalid Date Try Again' 
@@ -221,6 +231,7 @@ def availableDatesForProvider(providerName):
 
 def getAvailableDatesForTheDay(listOfDates, day):
     print(listOfDates)
+    print(day)
     for date in listOfDates:
         if date.day == day:
             return [x for x in HOUR if x != date.hour]
