@@ -16,8 +16,11 @@
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == home_url %}active{% endif %}" href="{{ home_url }}">Home</a></li>
                 
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">About</a></li>
-
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == login_url %}active{% endif %}" href="{{ login_url }}">Login</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}"> {{ user.username}} Logout</a></li>
+                {% else %}    
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded {% if request.path == login_url %}active{% endif %}" href="{{ login_url }}">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
