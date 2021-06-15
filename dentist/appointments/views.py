@@ -156,6 +156,14 @@ def setDate(request):
             }
         )
 
+def userDelete2(request):
+    listofdates = request.session.get('listofappointments')
+    #get number from url
+    urlNumber = 1
+    dateToDelete = listofdates[urlNumber]
+    #delete query
+    appointment.objects.delete().filter(appointmentDate = dateToDelete)
+    return redirect('login/user/delete/')
 
 def userView(request):
     currentUser = request.session.get('loggedUser')
@@ -174,9 +182,18 @@ def userView(request):
 
 def userDelete(request):
     currentUser = request.session.get('loggedUser')
+    newform = newAppointment()
     appointmentList = getUserAppointments(currentUser)
+    request.session['listofappointments'] = appointmentList 
+    formattedList = processAppointmentList(appointmentList)  
+    provider = list(appointment.objects.values_list('provider', flat=True).filter(patient = users.objects.get(email=currentUser).id))
     return render(request,
-                  'user_detele_view.html',)
+                  'user_delete_view.html',
+                  {                  
+                    'user_logged': True,
+                    'datelist' : appointmentList,
+                    'user_name' : currentUser,
+                  })
     
 def userModify(request):
     currentUser = request.session.get('loggedUser')    
