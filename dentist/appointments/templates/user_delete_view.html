@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Logged In {% endblock %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+    <div class="container">
+
+      <h1>Dates for the user {{ user_name }}</h1>
+      {% if user_logged %}   
+        {% for date in datelist %} 
+        <a href="{{forloop.counter}}">{{ date }}</a> 
+        {% endfor %}
+      {% else %}
+        <h1>no</h1>
+      {% endif %}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+    <div class="container">
+      <h1>Log in page</h1>
+      <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+          {% for field in loginForm %}
+          <div class="form-group">
+
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+
+          </div>
+          {% endfor %}
+
+          <input type="submit" value="Login">
+      </form>
+    </div>
+{% endblock %}    

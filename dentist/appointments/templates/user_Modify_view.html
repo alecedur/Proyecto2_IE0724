@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Logged In {% endblock %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+    <div class="container">
+
+      <h1>Choose date for appoinmtment</h1>
+      {% if saved %}     
+      <h2>{{ note }}</h2>
+      {% else %}
+      <h2>{{ note }}</h2>
+      <form action="{% url 'userModify' %}" method="post">
+          {% csrf_token %}
+          {% for field in dateForm %}
+          <div class="form-group">
+
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+
+          </div>
+          {% endfor %}
+
+          <input type="submit" value="Create new Appointment">
+      </form>
+      {% endif %}
+
+    </div>
+{% endblock %}    

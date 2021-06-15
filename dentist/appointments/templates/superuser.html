@@ -1,0 +1,27 @@
+{% load widget_tweaks %}
+
+    <div class="container">
+    {% if user_logged %}
+      <h1>Created new superuser</h1>
+      <h2>{{ note }}</h2>
+      <a href="{% url 'show' user.pk % }"> 
+          <h3>View appointments section</h3>
+      </a>    
+    {% else %}
+      <h1>Create new superuser</h1>
+      <form action="{% url 'superuser' %}" method="post">
+          {% csrf_token %}
+          {% for field in superuserform %}
+          <div class="form-group">
+
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+
+          </div>
+          {% endfor %}
+
+          <input type="submit" value="Create New SuperUser">
+      </form>
+    {% endif %}
+
+    </div>
