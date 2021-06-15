@@ -191,7 +191,7 @@ def userModify(request):
             try:
                 filled_form.save()
             except:
-                note = 'Date is already taken, try again'
+                note = 'Date is already taken, try again or try a different provider'
                 return render(request, 'user_Modify_view.html',
                           {
                               'note' : note,
@@ -252,43 +252,7 @@ def deleteAppointment(userMail, dateToDelete):
 def processAppointmentList(appointmentList):
     return 1    
 
-
-def new(request):
-    # new_form = PetForm()
-
-    # if request.method == 'POST':
-    #     filled_form = PetForm(request.POST)
-
-    #     # Only save an object from a valid form
-    #     if filled_form.is_valid():
-    #         new_pet = filled_form.save()
-    #         new_pk = new_pet.pk
-    #         note = (
-    #             'New Pet object with pk \'{}\' was created\n'
-    #             'Name: {}'.format(
-    #                 new_pk,
-    #                 filled_form.cleaned_data['name']
-    #             )
-    #         )
-    #     else:
-    #         note = 'Invalid form, no Pet object was created...'
-
-    #     return render(
-    #         request,
-    #         'new.html',
-    #         {
-    #             'note': note,
-    #             'petform': new_form,
-    #         }
-    #     )
-    # else:
-    #     return render(
-    #         request,
-    #         'new.html',
-    #         {
-    #             'petform': new_form,
-    #         }
-    #     )
+def new(request):    
     return HttpResponse('Showing \'new\' page')
 
 
