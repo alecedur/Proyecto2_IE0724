@@ -178,10 +178,25 @@ def userDelete(request):
                   'user_detele_view.html',)
     
 def userModify(request):
-    currentUser = request.session.get('loggedUser')
-    appointmentList = getUserAppointments(currentUser)
-    return render(request,
-                  'user_Modify_view.html',)
+    currentUser = request.session.get('loggedUser')    
+    newform = newAppointment()
+    note = ''
+    if request.method == 'POST':        
+        filled_form = loginForm(request.POST)
+        if filled_form.is_valid():
+            appointmentList = getUserAppointments(currentUser)
+            availDates = getAvailableDatesForTheDay(appointmentList)
+            date = filled_form.cleaned_data['date']
+            
+        else:
+            note = 'Invalid Date Try Again'             
+    else:    
+        return render(request,
+                    'user_Modify_view.html',
+                    {
+                        'note' : note,
+                        'dateForm' : newform,
+                    })
 
 
 def availableDatesForProvider(providerName):
