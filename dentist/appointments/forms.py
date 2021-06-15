@@ -1,5 +1,5 @@
 from django import forms
-from .models import superUser, users
+from .models import appointment, superUser, users
 from datetime import datetime
 
 class loginForm(forms.Form):
@@ -23,13 +23,20 @@ class usersForm(forms.ModelForm):
     key = forms.CharField(required=False, max_length=20)
 
 
-class newAppointment(forms.Form):
-    date = forms.DateField(required=True)
-    def clean_date(self):
-        date = self.cleaned_data['date']
-        if date < datetime.date.today():
-            raise forms.ValidationError("The date cannot be in the past!")
-        return date
+class newAppointment(forms.ModelForm):
+    class Meta:
+        model = appointment
+        fields = [
+            'patient',
+            'provider',
+            'appointmentDate',
+        ]
+        labels = {
+            'patient' : 'patient',
+            'provider' : 'provider',
+            'appointmentDate' : 'appointmentDate',
+        }
+
 
 class superuserForm(forms.ModelForm):
     class Meta:

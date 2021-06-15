@@ -7,7 +7,8 @@
       <h1>Choose date for appoinmtment</h1>
       {% if user_logged %}     
       {% else %}
-      <form action="{% url 'setDate' %}" method="post">
+      <h2>{{ note }}</h2>
+      <form action="{% url 'userModify' %}" method="post">
           {% csrf_token %}
           {% for field in dateForm %}
           <div class="form-group">

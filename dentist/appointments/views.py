@@ -126,7 +126,7 @@ def processLogin(userEmail, request, isSuper = False, logState = False):
             return redirect('admin/panel/')
         else:             
             request.session['loggedUser'] = userEmail 
-            return redirect('user/view/')                                     
+            return redirect('user/modify/')                                     
     else: 
         #User got to this url and is not logged in
         return HttpResponseForbidden()
@@ -182,15 +182,29 @@ def userModify(request):
     newform = newAppointment()
     note = ''
     if request.method == 'POST':        
-        filled_form = loginForm(request.POST)
+        filled_form = newAppointment(request.POST)
         if filled_form.is_valid():
-            appointmentList = getUserAppointments(currentUser)
-            availDates = getAvailableDatesForTheDay(appointmentList)
-            date = filled_form.cleaned_data['date']
-            
+            appointmentList = getUserAppointments(currentUser)            
+            date = filled_form.cleaned_data['appointmentDate']
+            availDates = getAvailableDatesForTheDay(appointmentList, date.day)
+            if len(availDates)!=0:
+                filled_form.save()
+            print('here3')
+            return render(request, 'user_Modify_view.html',
+                          {
+                              'note' : note,
+                              'dateForm' : newform,
+                          })
         else:
-            note = 'Invalid Date Try Again'             
+            note = 'Invalid Date Try Again' 
+            print('here2')
+            return render(request, 'user_Modify_view.html',
+                          {
+                              'note' : note,
+                              'dateForm' : newform,
+                          })
     else:    
+        print('here')
         return render(request,
                     'user_Modify_view.html',
                     {
@@ -206,6 +220,7 @@ def availableDatesForProvider(providerName):
     return None
 
 def getAvailableDatesForTheDay(listOfDates, day):
+    print(listOfDates)
     for date in listOfDates:
         if date.day == day:
             return [x for x in HOUR if x != date.hour]
