@@ -5,7 +5,8 @@
     <div class="container">
 
       <h1>Choose date for appoinmtment</h1>
-      {% if user_logged %}     
+      {% if saved %}     
+      <h2>{{ note }}</h2>
       {% else %}
       <h2>{{ note }}</h2>
       <form action="{% url 'userModify' %}" method="post">

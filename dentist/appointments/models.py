@@ -27,16 +27,15 @@ class users(models.Model):
     email = models.EmailField(unique = True)
     name = models.CharField(max_length = 20)
     password = models.CharField(max_length = 30)
-    isSuper = models.BooleanField(default = False) 
+    isSuper = models.BooleanField(default = False)
+    def __str__(self):
+        return self.name
  
 class providers(models.Model):
     providerName = models.CharField(unique=True, max_length=50)
+    def __str__(self):
+        return self.providerName
 class appointment(models.Model):
     patient = models.ForeignKey(users, default=None, on_delete=models.CASCADE, related_name='patientName')
     provider = models.ForeignKey(providers, default=None, on_delete=models.CASCADE, related_name='doctorProviders')
     appointmentDate = models.DateTimeField(default=None)
-# class Pet(models.Model):
-#     name = models.CharField(max_length=20)
-#     age = models.PositiveIntegerField(blank=True)
-#     species = models.CharField(max_length=20)
-#     gender = models.CharField(max_length=1, choices=GENDERS)
