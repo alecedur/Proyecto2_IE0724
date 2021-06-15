@@ -1,4 +1,9 @@
-<h1>Logged in</h1>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Logged In {% endblock %}
+
+{% block content %}
 
 {% load widget_tweaks %}
 
@@ -25,3 +30,4 @@
       {% endif %}
 
     </div>
+{% endblock %}    
