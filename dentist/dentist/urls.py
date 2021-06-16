@@ -33,7 +33,7 @@ urlpatterns = [
     path('login/admin/panel/', views.superuserView, name = 'superuserView'),
     path('accounts/profile', views.ProfileView.as_view(), name = 'profile'),
     path('user/view/set', views.setDate, name = 'setDate'),
-    path('login/user/delete/<int>', views.userDelete2, name = 'trueDelete'),
+    path('login/user/delete/<key>', views.userDelete2, name = 'trueDelete'),
 
     #Django Auth Stuff
     #path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),

@@ -12,7 +12,7 @@
       <h1>Dates for the user {{ user_name }}</h1>
       {% if user_logged %}   
         {% for date in datelist %} 
-        <a href="{{forloop.counter}}">{{ date }}</a> 
+        <a href="{{forloop.counter}}">{{ date }}</a><br> 
         {% endfor %}
       {% else %}
         <h1>no</h1>

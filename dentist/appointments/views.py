@@ -6,6 +6,8 @@ from datetime import timedelta
 from django.template import loader
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from copy import deepcopy
+import json
 # Create your views here.
 HOUR = [
     ('1', '8:00',
@@ -157,36 +159,39 @@ def setDate(request):
             }
         )
 
-def userDelete2(request):
-    listofdates = request.session.get('listofappointments')
-    #get number from url
-    urlNumber = 1
-    dateToDelete = listofdates[urlNumber]
-    #delete query
-    appointment.objects.delete().filter(appointmentDate = dateToDelete)
-    return redirect('login/user/delete/')
+def userDelete2(request, key):
+    currentUser = request.session.get('loggedUser')        
+    urlNumber = int(key)-1        
+    listofAppointments = getUserAppointments(currentUser) 
+    dateToDelete = listofAppointments[urlNumber]    
+    appointment.objects.get(appointmentDate=dateToDelete).delete()
+    return redirect('userDelete')
 
 def userView(request):
     currentUser = request.session.get('loggedUser')
-    newform = newAppointment()
-    appointmentList = getUserAppointments(currentUser)
-    formattedList = processAppointmentList(appointmentList)  
-    provider = list(appointment.objects.values_list('provider', flat=True).filter(patient = users.objects.get(email=currentUser).id))
-    return render(request,
-                          'user_view.html',
-                          {
-                              'user_logged': True,
-                              'datelist' : appointmentList,
-                              'user_name' : currentUser,
-                              'providerlist' : provider
-                          })
+    if currentUser!=None:        
+        newform = newAppointment()
+        appointmentList = getUserAppointments(currentUser) 
+        dateList = [x.date() for x in appointmentList]           
+        provider = list(appointment.objects.values_list('provider', flat=True).filter(patient = users.objects.get(email=currentUser).id))
+        return render(request,
+                            'user_view.html',
+                            {
+                                'user_logged': True,
+                                'datelist' : dateList,
+                                'user_name' : currentUser,
+                                'providerlist' : provider
+                            })
+    else:
+        return redirect('login')
 
 def userDelete(request):
     currentUser = request.session.get('loggedUser')
     newform = newAppointment()
     appointmentList = getUserAppointments(currentUser)
-    request.session['listofappointments'] = appointmentList 
+    #request.session['listofappointments'] = appointmentList 
     formattedList = processAppointmentList(appointmentList)  
+    print('at delete')
     provider = list(appointment.objects.values_list('provider', flat=True).filter(patient = users.objects.get(email=currentUser).id))
     return render(request,
                   'user_delete_view.html',
@@ -260,7 +265,7 @@ def fixUTCTime(datetimeList):
 
 def getUserAppointments(userMail):
     print(users.objects.get(email=userMail).id)
-    return fixUTCTime(appointment.objects.values_list('appointmentDate', flat=True).filter(patient = users.objects.get(email=userMail).id))
+    return appointment.objects.values_list('appointmentDate', flat=True).filter(patient = users.objects.get(email=userMail).id)
     
 def deleteAppointment(userMail, dateToDelete):
     appointmentList = getUserAppointments(userMail)
@@ -279,11 +284,17 @@ def show(request, pk=None):
     return HttpResponse('Showing "show" page')
 
 def home(request):
-    return render(
-        request,
-        'home.html',
-        {}
-    )
+    currentUser = request.session.get('loggedUser')  
+    if currentUser!=None:
+        return render(request,
+                      'home.html',
+                      {'user_logged' : True})        
+    else:                
+        return render(
+            request,
+            'home.html',
+            {}
+        )
 
 def about(request):
     return render(
