@@ -239,7 +239,8 @@ def userModify(request):
                 return render(request, 'user_Modify_view.html',
                           {
                               'note' : note,
-                              'dateForm' : newform,                            
+                              'dateForm' : newform,
+                              'user_logged' : True,                            
                           })
             print('here3')
             note = 'Saved date for user ' + currentUser + ' date: ' + date.strftime("%m/%d/%Y")
@@ -248,6 +249,7 @@ def userModify(request):
                               'note' : note,
                               'dateForm' : newform,
                               'saved' : True,
+                              'user_logged' : True
                           })
         else:
             note = 'Invalid Date Try Again' 
@@ -256,6 +258,7 @@ def userModify(request):
                           {
                               'note' : note,
                               'dateForm' : newform,
+                              'user_logged' : True
                           })
     else:    
         print('here')
@@ -264,6 +267,7 @@ def userModify(request):
                     {
                         'note' : note,
                         'dateForm' : newform,
+                        'user_logged' : True
                     })
 
 
