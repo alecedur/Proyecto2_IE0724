@@ -20,8 +20,10 @@ HOUR = [
      '8', '15:00',)
 ]
 
-#signup 
 def signup(request):    
+    """Logica para poder crear una cuenta
+    en base al form, si es correcta se guarda. 
+    """
     new_form = usersForm()  
     user_logged = False
       
@@ -49,6 +51,9 @@ def signup(request):
         )
 
 def createUser(form):
+    """Funcion crea un usuario administrador si se ingreso
+    la frase secreta de forma correcta
+    """
     if form.is_valid(): 
         if form.cleaned_data['key'] == 'SECRET':
             addSuperTrait(form).save()
@@ -95,6 +100,10 @@ def superuser(request):
         )
     
 def login(request):
+    """Funcion se encarga del a logica para hacer login y 
+    ver si la cuenta que quiere ingresar es admin o no.
+    Retorna forbidden si los valores de la cuenta estan mal
+    """
     note = '1'
     new_form = loginForm()
     if request.method == 'POST':
@@ -123,6 +132,9 @@ def login(request):
         )
 
 def processLogin(userEmail, request, isSuper = False, logState = False):
+    """Si la cuenta esta bien se guarda el email del usuario actual de la sesion
+    para obtener informacion luego
+    """
     if logState:
         if isSuper:            
             request.session['loggedUser'] = userEmail      
@@ -160,6 +172,9 @@ def setDate(request):
         )
 
 def userDelete2(request, key):
+    """Funcion sabe cual fecha debe borrar 
+    con la llave del url
+    """
     currentUser = request.session.get('loggedUser')        
     urlNumber = int(key)-1        
     listofAppointments = getUserAppointments(currentUser) 
@@ -186,6 +201,9 @@ def userView(request):
         return redirect('login')
 
 def userDelete(request):
+    """Vista para borrar las citas que tiene
+    un usuario 
+    """
     currentUser = request.session.get('loggedUser')
     newform = newAppointment()
     appointmentList = getUserAppointments(currentUser)
@@ -202,6 +220,8 @@ def userDelete(request):
                   })
     
 def userModify(request):
+    """View permite crear citas al usuario
+    """
     currentUser = request.session.get('loggedUser')    
     newform = newAppointment()
     note = ''
